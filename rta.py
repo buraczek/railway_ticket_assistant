@@ -52,7 +52,7 @@ class FirefoxBrowser(object):
         self.browser.quit()
 
 
-class InterCityActions(object):
+class PageActions(object):
     def __init__(self, browser: FirefoxBrowser):
         self.fb = browser
         self.monthly_ticket_id = None
@@ -226,7 +226,7 @@ if __name__ == "__main__":
     args = initialize()
     lang_dict = lang_dict[args.lang]
 
-    ica = InterCityActions(FirefoxBrowser(headless=False, page='{}/{}/'.format(args.url, args.lang)))
+    ica = PageActions(FirefoxBrowser(headless=False, page='{}/{}/'.format(args.url, args.lang)))
     ica.login()
     ica.get_monthly_ticket_id()
     ica.book_ticket(
