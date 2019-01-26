@@ -226,13 +226,13 @@ if __name__ == "__main__":
     args = initialize()
     lang_dict = lang_dict[args.lang]
 
-    ica = PageActions(FirefoxBrowser(headless=False, page='{}/{}/'.format(args.url, args.lang)))
-    ica.login()
-    ica.get_monthly_ticket_id()
-    ica.book_ticket(
+    pa = PageActions(FirefoxBrowser(headless=False, page='{}/{}/'.format(args.url, args.lang)))
+    pa.login()
+    pa.get_monthly_ticket_id()
+    pa.book_ticket(
         start_city=args.start_station,
         destination_city=args.dest_station,
-        dep_time=ica.get_next_day(args.weekday).replace(
+        dep_time=pa.get_next_day(args.weekday).replace(
             hour=int(args.start_time.split(':')[0]),
             minute=int(args.start_time.split(':')[1]),
         ),
@@ -240,14 +240,14 @@ if __name__ == "__main__":
         position=lang_dict['Position'][1],
     )
     if args.book_return:
-        ica.book_ticket(
+        pa.book_ticket(
             start_city=args.dest_station,
             destination_city=args.start_station,
-            dep_time=ica.get_next_day(args.weekday).replace(
+            dep_time=pa.get_next_day(args.weekday).replace(
                 hour=int(args.return_time.split(':')[0]),
                 minute=int(args.return_time.split(':')[1]),
             ),
             car_type=lang_dict['Car types'][args.return_car],
             position=lang_dict['Position'][1],
         )
-    ica.logout()
+    pa.logout()
