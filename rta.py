@@ -59,7 +59,7 @@ class PageActions(object):
 
     def _wait_until_element_is_visible(self, by: By, name: str):
         element_present = expected_conditions.presence_of_element_located((by, name))
-        WebDriverWait(self.fb.browser, 20).until(element_present)
+        WebDriverWait(self.fb.browser, 60).until(element_present)
 
     def _close_current_tab(self):
         self.fb.browser.close()
@@ -101,6 +101,7 @@ class PageActions(object):
             if 'City Bilet' in ticket.text:
                 self.monthly_ticket_id = ''.join([x for x in ticket.text.split()[0] if not x.isalpha()])
                 logging.info('Monthly ticket ID: {}'.format(self.monthly_ticket_id))
+                break
 
         logging.info('Monthly ticket validity: {}'.format(
             ' - '.join([x.text for x in self.fb.browser.find_elements_by_xpath(
@@ -172,7 +173,7 @@ class PageActions(object):
         self._wait_and_act(By.XPATH, "//*[@value='{}']".format(lang_dict['Confirm']))
 
     def logout(self):
-        self._wait_and_act(By.XPATH, "//*[contains(text(), '{}')]".format(lang_dict['Logout']))
+        self._wait_and_act(By.XPATH, "//*[@title='Wyloguj' and contains(text(), '{}')]".format(lang_dict['Logout']))
 
     def book_ticket(self, start_city: str, destination_city: str, dep_time: datetime, car_type: str, position: str):
         self.find_connections(
